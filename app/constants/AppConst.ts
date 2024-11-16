@@ -1,21 +1,21 @@
-import { Dimensions, Platform } from 'react-native'
+import { Dimensions, Platform } from "react-native";
 
 export const AppConst = {
-  windowHeight: () => Dimensions.get('window').height,
-  windowWidth: () => Dimensions.get('window').width,
-  screenHeight: () => Dimensions.get('screen').height,
-  screenWidth: () => Dimensions.get('screen').width,
+  windowHeight: () => Dimensions.get("window").height,
+  windowWidth: () => Dimensions.get("window").width,
+  screenHeight: () => Dimensions.get("screen").height,
+  screenWidth: () => Dimensions.get("screen").width,
 
   OS: Platform.OS,
-  defaultLanguage: 'en',
+  defaultLanguage: "en",
 
   format: {
-    date: 'DD/MM/YYYY',
-    isoDate: 'YYYY-MM-DD',
-    time: 'HH:mm',
-    dateTime: 'HH:mm DD/MM/YYYY',
-    isoDateTime: 'YYYY-MM-DD HH:mm:ss',
-    database: 'YYYYMMDD',
+    date: "DD/MM/YYYY",
+    isoDate: "YYYY-MM-DD",
+    time: "HH:mm",
+    dateTime: "HH:mm DD/MM/YYYY",
+    isoDateTime: "YYYY-MM-DD HH:mm:ss",
+    database: "YYYYMMDD",
   },
 
   // timeoutDelay
@@ -28,9 +28,7 @@ export const AppConst = {
     name: 50,
     password: 18,
   },
-
-  defaultImageUri: 'https://daily.tungxuan.com/default.png',
-}
+};
 
 export const AppSpace = {
   smallest: 8,
@@ -39,7 +37,7 @@ export const AppSpace = {
   large: 20,
   largest: 24,
   custom: (n: number) => n,
-}
+};
 
 export const AppRadius = {
   smallest: 6,
@@ -48,8 +46,8 @@ export const AppRadius = {
   large: 12,
   largest: 16,
   custom: (n: number) => n,
-}
+};
 
 export const AppSize = {
   custom: (n: number) => n,
-}
+};

@@ -1,16 +1,10 @@
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
-import {
-  createNavigationContainerRef,
-  DefaultTheme,
-  NavigationContainer,
-} from "@react-navigation/native";
+import { createNavigationContainerRef } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import Account from "../screens/Account";
 import HomePage from "../screens/Home";
 import PostDetails from "../screens/Home/components/PostDetails";
 import { AppRoute } from "./AppRoute";
-import AppSplash from "./AppSplash";
 import CommonStackWrapper from "./CommonStackWrapper";
 
 const Stack = createNativeStackNavigator();

@@ -37,7 +37,7 @@ const PostFellings = () => {
       style={{
         padding: 16,
         backgroundColor: AppColors.white,
-        marginVertical: 16,
+        marginVertical: 8,
       }}
     >
       <Text style={{ ...AppTypo.body.bold, fontWeight: "600" }}>

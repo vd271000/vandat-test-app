@@ -82,10 +82,9 @@ const Header: React.FC<HeaderProps> = ({
       <View
         style={[
           styles.headerContainer,
-          safeTop &&
-            {
-              //  marginTop: insets.top
-            },
+          safeTop && {
+            marginTop: insets.top,
+          },
         ]}
       >
         <View style={styles.left}>

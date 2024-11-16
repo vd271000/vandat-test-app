@@ -57,7 +57,7 @@ const News = () => {
   return (
     <FlatList
       style={{
-        marginVertical: 16,
+        marginVertical: 8,
         backgroundColor: AppColors.white,
       }}
       showsHorizontalScrollIndicator={false}

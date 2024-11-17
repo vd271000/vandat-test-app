@@ -6,6 +6,7 @@ import HomePage from "../screens/Home";
 import PostDetails from "../screens/Home/components/PostDetails";
 import { AppRoute } from "./AppRoute";
 import CommonStackWrapper from "./CommonStackWrapper";
+import AppSplash from "./AppSplash";
 
 const Stack = createNativeStackNavigator();
 export const appNavigationRef = createNavigationContainerRef();
@@ -18,9 +19,10 @@ export default function AppNavigation() {
   return (
     // <NavigationContainer ref={appNavigationRef} theme={DefaultTheme}>
     <Stack.Navigator
-      initialRouteName={AppRoute.HomePage}
+      initialRouteName={AppRoute.AppSplash}
       screenOptions={{ headerShown: false, animation: "slide_from_right" }}
     >
+      <Stack.Screen name={AppRoute.AppSplash} component={AppSplash} />
       <Stack.Screen name={AppRoute.HomePage} component={HomePage} />
       <Stack.Screen name={AppRoute.PostDetails} component={PostDetails} />
       {CommonStackWrapper()}

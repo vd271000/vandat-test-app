@@ -1,6 +1,8 @@
-import { Dispatch, Action, UnknownAction } from "redux";
-import { appReducers, RootReducer } from "./AppSlice";
-import { thunk, ThunkDispatch } from "redux-thunk";
+import { Action, Dispatch, UnknownAction } from "redux";
+import rootReducer from "../../reducers/RootReducer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { configureStore } from "@reduxjs/toolkit";
+import devtoolsEnhancer from "redux-devtools-expo-dev-plugin";
 import {
   FLUSH,
   PAUSE,
@@ -11,29 +13,9 @@ import {
   REGISTER,
   REHYDRATE,
 } from "redux-persist";
-import { configureStore } from "@reduxjs/toolkit";
-import devtoolsEnhancer from "redux-devtools-expo-dev-plugin";
-import { Storage } from "redux-persist";
-import { MMKV } from "react-native-mmkv";
+import { thunk, ThunkDispatch } from "redux-thunk";
 
-const storage = new MMKV();
-
-export const reduxStorage: Storage = {
-  setItem: (key, value) => {
-    storage.set(key, value);
-    return Promise.resolve(true);
-  },
-  getItem: (key) => {
-    const value = storage.getString(key);
-    return Promise.resolve(value);
-  },
-  removeItem: (key) => {
-    storage.delete(key);
-    return Promise.resolve();
-  },
-};
-
-const blacklistReduxActionLog = [];
+const blacklistReduxActionLog: string | any[] = [];
 
 function logger({ getState, dispatch }: any) {
   return (next: any) => (action: any) => {
@@ -47,12 +29,25 @@ function logger({ getState, dispatch }: any) {
 
 const persistConfig = {
   key: "root",
-  storage: reduxStorage,
-  transforms: [],
-  whitelist: ["app"],
+  storage: AsyncStorage,
+  // transforms: [],
+  whitelist: ["post"],
 };
 
-const getMiddlewares = (getDefaultMiddleware) =>
+const getMiddlewares = (
+  getDefaultMiddleware: (arg0: {
+    serializableCheck: {
+      ignoredActions: (
+        | "persist/FLUSH"
+        | "persist/REHYDRATE"
+        | "persist/PAUSE"
+        | "persist/PERSIST"
+        | "persist/PURGE"
+        | "persist/REGISTER"
+      )[];
+    };
+  }) => any[]
+) =>
   getDefaultMiddleware({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
@@ -61,19 +56,14 @@ const getMiddlewares = (getDefaultMiddleware) =>
 /**
  * @param {Store} store
  */
+
 export const store = configureStore({
-  reducer: persistReducer<RootReducer>(persistConfig, appReducers),
+  reducer: persistReducer(persistConfig, rootReducer),
   devTools: false,
   enhancers: (getDefaultEnhancers) =>
     getDefaultEnhancers().concat(devtoolsEnhancer()),
   middleware: getMiddlewares,
 });
-
-// gDM({
-//   serializableCheck: {
-//     ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-//   },
-// }).concat(logger, thunk),
 
 export const persistor = persistStore(store, {}, () => {});
 

@@ -1,3 +1,3 @@
 export const AppConfigs = {
-  API: {},
-}
+  API: "https://rickandmortyapi.com/api",
+};

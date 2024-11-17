@@ -1,45 +1,67 @@
 import { AppColors } from "@/app/assets";
 import { Screen } from "@/app/common/components/Screen";
 import { AppTypo } from "@/app/constants";
-import React, { useState, useRef } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import {
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import InforUser from "./components/InforUser";
 import News from "./components/News";
 import Post from "./components/Post";
 import PostFellings from "./components/PostFellings";
 import Account from "./components/Account";
+import { useAppDispatch, useAppSelector } from "@/app/controllers/redux";
+import { PostActions } from "./slice";
+
+const fakeUtils = [
+  {
+    name: "Bài viết",
+    touch: {},
+  },
+  {
+    name: "Giới thiệu",
+    touch: {},
+  },
+  {
+    name: "Bạn bè",
+    touch: {},
+  },
+  {
+    name: "Ảnh",
+    touch: {},
+  },
+  {
+    name: "Video",
+    touch: {},
+  },
+  {
+    name: "Cửa hàng",
+    touch: {},
+  },
+];
 
 const HomePage = () => {
+  const dispatch = useAppDispatch();
+
   const [selectedUtil, setSelectedUtil] = useState("Bài viết");
   const [scrollOffset, setScrollOffset] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
+
   const scrollViewRef = useRef(null);
 
-  const fakeUtils = [
-    {
-      name: "Bài viết",
-      touch: {},
-    },
-    {
-      name: "Giới thiệu",
-      touch: {},
-    },
-    {
-      name: "Bạn bè",
-      touch: {},
-    },
-    {
-      name: "Ảnh",
-      touch: {},
-    },
-    {
-      name: "Video",
-      touch: {},
-    },
-    {
-      name: "Cửa hàng",
-      touch: {},
-    },
-  ];
+  const getPost = useAppSelector((s) => s?.post?.posts);
+  const { loading, loadMore, page } = useAppSelector((s) => s.post);
+  // console.log("get post:", JSON.stringify(getPost));
+
+  const refreshPage = () => {
+    setRefreshing(true);
+    // dispatch(PostActions.getPost({ page: 1, limit: 10 }));
+    setRefreshing(false);
+  };
 
   const renderUtilsHorizoltal = () => {
     return (
@@ -88,7 +110,7 @@ const HomePage = () => {
         return (
           <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
             <PostFellings />
-            <Post />
+            <Post getPost={getPost} />
           </ScrollView>
         );
       case "Giới thiệu":
@@ -110,6 +132,9 @@ const HomePage = () => {
         onScroll={(e) => setScrollOffset(e.nativeEvent.contentOffset.y)}
         scrollEventThrottle={16}
         ref={scrollViewRef}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={refreshPage} />
+        }
       >
         {selectedUtil === "Bài viết" && (
           <>
